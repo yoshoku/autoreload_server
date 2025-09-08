@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-require_relative '../lib/autoreload-web-server/client'
+require_relative '../lib/autoreload_web_server'
 
-AutoReloadWebServer::Client.new.run(ARGV)
+AutoreloadWebServer::Client.new.run(ARGV)
