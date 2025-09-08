@@ -1,0 +1,5 @@
+# frozen_string_literal: true
+
+require_relative '../lib/autoreload-web-server/client'
+
+AutoReloadWebServer::Client.new.run(ARGV)

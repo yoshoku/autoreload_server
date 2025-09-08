@@ -30,8 +30,8 @@ Gem::Specification.new do |spec|
         f.start_with?(*%w[bin/ test/ spec/ features/ .git .github appveyor Gemfile])
     end
   end
-  spec.bindir = "exe"
-  spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
+  spec.bindir = "bin"
+  spec.executables = ["autoreload-web-server"]
   spec.require_paths = ["lib"]
 
   spec.add_dependency "listen", "~> 3.0"
