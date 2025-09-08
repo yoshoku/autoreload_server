@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "listen"
+require 'listen'
 
 module AutoreloadWebServer
   class Watcher

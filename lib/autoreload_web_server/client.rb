@@ -4,10 +4,10 @@ module AutoreloadWebServer
   class Client
     def initialize
       @opts = {
-        watch: "**/*",
+        watch: '**/*',
         ignore: [],
-        host: "127.0.0.1",
-        directory: ".",
+        host: '127.0.0.1',
+        directory: '.',
         port: 4000
       }
     end

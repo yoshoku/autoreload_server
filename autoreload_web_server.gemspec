@@ -1,25 +1,25 @@
 # frozen_string_literal: true
 
-require_relative "lib/autoreload_web_server/version"
+require_relative 'lib/autoreload_web_server/version'
 
 Gem::Specification.new do |spec|
-  spec.name = "autoreload_web_server"
+  spec.name = 'autoreload_web_server'
   spec.version = AutoreloadWebServer::VERSION
-  spec.authors = ["yoshoku"]
-  spec.email = ["yoshoku@outlook.com"]
+  spec.authors = ['yoshoku']
+  spec.email = ['yoshoku@outlook.com']
 
-  spec.summary = "TODO: Write a short summary, because RubyGems requires one."
-  spec.description = "TODO: Write a longer description or delete this line."
+  spec.summary = 'TODO: Write a short summary, because RubyGems requires one.'
+  spec.description = 'TODO: Write a longer description or delete this line.'
   spec.homepage = "TODO: Put your gem's website or public repo URL here."
-  spec.license = "MIT"
-  spec.required_ruby_version = ">= 3.1.0"
+  spec.license = 'MIT'
+  spec.required_ruby_version = '>= 3.1.0'
 
-  spec.metadata["allowed_push_host"] = "TODO: Set to your gem server 'https://example.com'"
+  spec.metadata['allowed_push_host'] = "TODO: Set to your gem server 'https://example.com'"
 
-  spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "TODO: Put your gem's public repo URL here."
-  spec.metadata["changelog_uri"] = "TODO: Put your gem's CHANGELOG.md URL here."
-  spec.metadata["rubygems_mfa_required"] = "true"
+  spec.metadata['homepage_uri'] = spec.homepage
+  spec.metadata['source_code_uri'] = "TODO: Put your gem's public repo URL here."
+  spec.metadata['changelog_uri'] = "TODO: Put your gem's CHANGELOG.md URL here."
+  spec.metadata['rubygems_mfa_required'] = 'true'
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
@@ -30,15 +30,15 @@ Gem::Specification.new do |spec|
         f.start_with?(*%w[bin/ test/ spec/ features/ .git .github appveyor Gemfile])
     end
   end
-  spec.bindir = "bin"
-  spec.executables = ["autoreload-web-server"]
-  spec.require_paths = ["lib"]
+  spec.bindir = 'bin'
+  spec.executables = ['autoreload-web-server']
+  spec.require_paths = ['lib']
 
-  spec.add_dependency "listen", "~> 3.0"
-  spec.add_dependency "nokogiri", "~> 1.15"
-  spec.add_dependency "puma", "~> 6.0"
-  spec.add_dependency "sinatra", "~> 4.0"
-  spec.add_dependency "websocket", "~> 1.2"
+  spec.add_dependency 'listen', '~> 3.0'
+  spec.add_dependency 'nokogiri', '~> 1.15'
+  spec.add_dependency 'puma', '~> 6.0'
+  spec.add_dependency 'sinatra', '~> 4.0'
+  spec.add_dependency 'websocket', '~> 1.2'
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
