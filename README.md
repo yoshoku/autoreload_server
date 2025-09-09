@@ -18,7 +18,7 @@ gem install autoreload_web_sever
 
 ## Usage
 
-Start autoreload-server:
+The `autoreload-web-server` command starts a web server with the specified directory as the document root.
 
 ```sh
 $ ls -1 public/
@@ -26,7 +26,8 @@ index.html
 $ autoreload-web-server public
 ```
 
-Then, access to http://localhost:4000/.
+Once the server is running, access http://localhost:4000/.
+When you modify a file in the `public` directory, the browser will automatically reload.
 
 ## Contributing
 
