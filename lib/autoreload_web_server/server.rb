@@ -128,6 +128,8 @@ module AutoreloadWebServer
                 }
               } catch (error) {
                 console.error('[autoreload-web-server] Polling error:', error);
+                console.log('[autoreload-web-server] Stopping polling due to error');
+                clearInterval(pollInterval);
               }
             };
 
