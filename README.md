@@ -23,10 +23,10 @@ Start autoreload-server:
 ```sh
 $ ls -1 public/
 index.html
-$ autoreload-server public
+$ autoreload-web-server public
 ```
 
-then, access to http://localhost:4000/.
+Then, access to http://localhost:4000/.
 
 ## Contributing
 
