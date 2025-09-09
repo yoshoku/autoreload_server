@@ -8,8 +8,10 @@ Gem::Specification.new do |spec|
   spec.authors = ['yoshoku']
   spec.email = ['yoshoku@outlook.com']
 
-  spec.summary = 'Simple auto-reloading web server in Ruby'
-  spec.description = 'Simple auto-reloading web server in Ruby'
+  spec.summary = 'A lightweight web server with an auto-reload feature for local development.'
+  spec.description = <<~DESCRIPTION
+    A simple web server for local development that provides an auto-reloading feature. It automatically refreshes the browser when a file is changed.
+  DESCRIPTION
   spec.homepage = 'https://github.com/yoshoku/autoreload_web_server'
   spec.license = 'MIT'
 
