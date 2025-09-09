@@ -120,6 +120,8 @@ module AutoreloadWebServer
       doc.to_html
     end
 
+    private
+
     def start_file_watcher
       @watcher = Watcher.new(@directory, @opts[:watch]) do |file_path|
         puts "[autoreload-web-server] File changed: #{file_path}"
