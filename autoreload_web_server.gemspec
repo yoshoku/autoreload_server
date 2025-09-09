@@ -34,9 +34,9 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'listen', '~> 3.0'
   spec.add_dependency 'nokogiri', '~> 1.15'
-  spec.add_dependency 'puma', '~> 6.0'
+  spec.add_dependency 'rackup', '~> 2.2'
   spec.add_dependency 'sinatra', '~> 4.0'
-  spec.add_dependency 'websocket', '~> 1.2'
+  spec.add_dependency 'webrick', '~> 1.8'
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html

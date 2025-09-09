@@ -10,7 +10,7 @@ module AutoreloadWebServer
         watch: '**/*',
         ignore: [],
         host: '127.0.0.1',
-        directory: '.',
+        directory: './public',
         port: 4000
       }
     end
@@ -19,8 +19,9 @@ module AutoreloadWebServer
       parse_options(args)
       validate_options
       start_server
-      resecue => e
+    rescue StandardError => e
       puts "[autoreload-web-server] Error: #{e.message}"
+      puts e.backtrace
       exit 1
     end
 
@@ -73,14 +74,14 @@ module AutoreloadWebServer
     end
 
     def start_server
-      server = Server.new(@opts)
+      @server = AutoreloadWebServer::Server.new(@opts)
 
       trap('INT') do
         puts '[autoreload-web-server] Shutting down...'
         exit
       end
 
-      server.start
+      @server.start
     end
   end
 end

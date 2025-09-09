@@ -6,7 +6,7 @@ require 'pathname'
 require 'tmpdir'
 
 RSpec.describe AutoreloadWebServer::Watcher do
-  subject(:watcher) { described_class.new(test_directory, watch_pattern, callback) }
+  subject(:watcher) { described_class.new(test_directory, watch_pattern) { |file| callback.call(file) } }
 
   let(:test_directory) { '/tmp/test_watch_dir' }
   let(:watch_pattern) { '**/*.html' }
@@ -23,7 +23,7 @@ RSpec.describe AutoreloadWebServer::Watcher do
     it 'sets the directory, pattern, and callback' do
       expect(watcher.instance_variable_get(:@directory)).to eq(test_directory)
       expect(watcher.instance_variable_get(:@watch_pattern)).to eq(watch_pattern)
-      expect(watcher.instance_variable_get(:@callback)).to eq(callback)
+      expect(watcher.instance_variable_get(:@callback)).to be_a(Proc)
     end
   end
 
@@ -109,7 +109,7 @@ RSpec.describe AutoreloadWebServer::Watcher do
 
   describe 'file pattern matching behavior' do
     context 'with different patterns' do
-      let(:css_pattern_watcher) { described_class.new(test_directory, '**/*.css', callback) }
+      let(:css_pattern_watcher) { described_class.new(test_directory, '**/*.css') { |file| callback.call(file) } }
 
       before do
         allow(Listen).to receive(:to) do |_directory, &block|
