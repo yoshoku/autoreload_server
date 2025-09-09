@@ -23,7 +23,13 @@ module AutoreloadWebServer
       puts "[autoreload-web-server] Directory: #{@directory}"
       puts "[autoreload-web-server] Server: http://#{@opts[:host]}:#{@opts[:port]}"
 
-      Rackup::Handler::WEBrick.run(create_sinatra_app, Host: @opts[:host], Port: @opts[:port])
+      Rackup::Handler::WEBrick.run(
+        create_sinatra_app,
+        Host: @opts[:host],
+        Port: @opts[:port],
+        Logger: WEBrick::Log.new(IO::NULL),
+        AccessLog: []
+      )
     end
 
     def create_sinatra_app # rubocop:disable Metrics/AbcSize
@@ -37,6 +43,7 @@ module AutoreloadWebServer
         set :port, opts[:port]
         set :public_folder, directory
         set :static, true
+        set :logging, false
         set :pending_reload, false
 
         get '/autoreload-events' do
