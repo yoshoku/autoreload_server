@@ -1,5 +1,8 @@
 # autoreload_server
 
+[![Gem Version](https://badge.fury.io/rb/autoreload_server.svg)](https://badge.fury.io/rb/autoreload_server)
+[![License](https://img.shields.io/badge/License-MIT-yellowgreen.svg)](https://github.com/yoshoku/autoreload_server/blob/main/LICENSE.txt)
+
 A simple web server for local development that provides an auto-reloading feature. It automatically refreshes the browser when a file is changed.
 
 ## Installation
