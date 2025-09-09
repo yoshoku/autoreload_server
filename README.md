@@ -21,7 +21,9 @@ gem install autoreload_web_sever
 Start autoreload-server:
 
 ```sh
-$ autoreload-server '**/*' public
+$ ls -1 public/
+index.html
+$ autoreload-server public
 ```
 
 then, access to http://localhost:4000/.
