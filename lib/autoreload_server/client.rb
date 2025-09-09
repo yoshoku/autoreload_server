@@ -3,7 +3,7 @@
 require 'optparse'
 require_relative 'server'
 
-module AutoreloadWebServer
+module AutoreloadServer
   class Client
     def initialize
       @opts = {
@@ -20,7 +20,7 @@ module AutoreloadWebServer
       validate_options
       start_server
     rescue StandardError => e
-      puts "[autoreload-web-server] Error: #{e.message}"
+      puts "[autoreload-server] Error: #{e.message}"
       puts e.backtrace
       exit 1
     end
@@ -29,8 +29,8 @@ module AutoreloadWebServer
 
     def parse_options(args) # rubocop:disable Metrics/AbcSize
       parser = OptionParser.new do |opts|
-        opts.banner = 'Usage: autoreload-web-server [options] [directory] [port]'
-        opts.version = AutoreloadWebServer::VERSION
+        opts.banner = 'Usage: autoreload-server [options] [directory] [port]'
+        opts.version = AutoreloadServer::VERSION
 
         opts.on('-w', '--watch PATTERN', "File pattern to watch (default: #{@opts[:watch]})") do |pattern|
           @opts[:watch] = pattern
@@ -42,7 +42,7 @@ module AutoreloadWebServer
         end
 
         opts.on('-v', '--version', 'Show version') do
-          puts AutoreloadWebServer::VERSION
+          puts AutoreloadServer::VERSION
           exit
         end
       end
@@ -62,18 +62,18 @@ module AutoreloadWebServer
     end
 
     def validate_options
-      abort "[autoreload-web-server] Error: '#{@opts[:directory]}' does not exist" unless Dir.exist?(@opts[:directory])
+      abort "[autoreload-server] Error: '#{@opts[:directory]}' does not exist" unless Dir.exist?(@opts[:directory])
 
       return if @opts[:port].between?(1, 65_535)
 
-      abort '[autoreload-web-server] Error: port number must be between 1 and 65535'
+      abort '[autoreload-server] Error: port number must be between 1 and 65535'
     end
 
     def start_server
-      @server = AutoreloadWebServer::Server.new(@opts)
+      @server = AutoreloadServer::Server.new(@opts)
 
       trap('INT') do
-        puts '[autoreload-web-server] Shutting down...'
+        puts '[autoreload-server] Shutting down...'
         exit
       end
 

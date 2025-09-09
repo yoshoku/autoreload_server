@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in autoreload_web_server.gemspec
+# Specify your gem's dependencies in autoreload_server.gemspec
 gemspec
 
 gem 'irb'

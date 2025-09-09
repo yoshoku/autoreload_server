@@ -3,7 +3,7 @@
 require 'spec_helper'
 require 'tmpdir'
 
-RSpec.describe AutoreloadWebServer::Client do
+RSpec.describe AutoreloadServer::Client do
   let(:client) { described_class.new }
   let(:temp_dir) { Dir.mktmpdir }
 

@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_relative 'lib/autoreload_web_server/version'
+require_relative 'lib/autoreload_server/version'
 
 Gem::Specification.new do |spec|
-  spec.name = 'autoreload_web_server'
-  spec.version = AutoreloadWebServer::VERSION
+  spec.name = 'autoreload_server'
+  spec.version = AutoreloadServer::VERSION
   spec.authors = ['yoshoku']
   spec.email = ['yoshoku@outlook.com']
 
@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.description = <<~DESCRIPTION
     A simple web server for local development that provides an auto-reloading feature. It automatically refreshes the browser when a file is changed.
   DESCRIPTION
-  spec.homepage = 'https://github.com/yoshoku/autoreload_web_server'
+  spec.homepage = 'https://github.com/yoshoku/autoreload_server'
   spec.license = 'MIT'
 
   spec.metadata['homepage_uri'] = spec.homepage
@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
     end
   end
   spec.bindir = 'bin'
-  spec.executables = ['autoreload-web-server']
+  spec.executables = ['autoreload-server']
   spec.require_paths = ['lib']
 
   spec.add_dependency 'listen', '~> 3.0'

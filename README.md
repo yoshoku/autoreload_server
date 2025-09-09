@@ -1,4 +1,4 @@
-# autoreload_web_server
+# autoreload_server
 
 A simple web server for local development that provides an auto-reloading feature. It automatically refreshes the browser when a file is changed.
 
@@ -7,23 +7,23 @@ A simple web server for local development that provides an auto-reloading featur
 Install the gem and add to the application's Gemfile by executing:
 
 ```bash
-bundle add autoreload_web_server
+bundle add autoreload_server
 ```
 
 If bundler is not being used to manage dependencies, install the gem by executing:
 
 ```bash
-gem install autoreload_web_sever
+gem install autoreload_server
 ```
 
 ## Usage
 
-The `autoreload-web-server` command starts a web server with the specified directory as the document root.
+The `autoreload-server` command starts a web server with the specified directory as the document root.
 
 ```sh
 $ ls -1 public/
 index.html
-$ autoreload-web-server public
+$ autoreload-server public
 ```
 
 Once the server is running, access http://localhost:4000/.
@@ -31,8 +31,8 @@ When you modify a file in the `public` directory, the browser will automatically
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/yoshoku/autoreload_web_server.
-This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/yoshoku/autoreload_web_server/blob/main/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/yoshoku/autoreload_server.
+This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/yoshoku/autoreload_server/blob/main/CODE_OF_CONDUCT.md).
 
 ## License
 
@@ -40,4 +40,5 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the AutoreloadWebServer project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/yoshoku/autoreload_web_server/blob/main/CODE_OF_CONDUCT.md).
+Everyone interacting in the AutoreloadServer project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/yoshoku/autoreload_server/blob/main/CODE_OF_CONDUCT.md).
+_OF_CONDUCT.md).

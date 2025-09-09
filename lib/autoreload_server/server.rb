@@ -7,7 +7,7 @@ require 'rackup'
 
 require_relative 'watcher'
 
-module AutoreloadWebServer
+module AutoreloadServer
   class Server
     def initialize(opts)
       @opts = opts
@@ -16,12 +16,12 @@ module AutoreloadWebServer
     end
 
     def start
-      puts '[autoreload-web-server] Initializing server...'
+      puts '[autoreload-server] Initializing server...'
       start_file_watcher
 
-      puts '[autoreload-web-server] Starting server...'
-      puts "[autoreload-web-server] Directory: #{@directory}"
-      puts "[autoreload-web-server] Server: http://#{@opts[:host]}:#{@opts[:port]}"
+      puts '[autoreload-server] Starting server...'
+      puts "[autoreload-server] Directory: #{@directory}"
+      puts "[autoreload-server] Server: http://#{@opts[:host]}:#{@opts[:port]}"
 
       Rackup::Handler::WEBrick.run(
         create_sinatra_app,
@@ -73,7 +73,7 @@ module AutoreloadWebServer
             # Monitor for reload events
             loop do
               if settings.pending_reload
-                puts '[autoreload-web-server] Sending reload event to client'
+                puts '[autoreload-server] Sending reload event to client'
                 settings.pending_reload = false
                 out << "data: #{JSON.generate({ type: 'update', reload: true })}\n\n"
                 break
@@ -124,55 +124,55 @@ module AutoreloadWebServer
 
     def start_file_watcher
       @watcher = Watcher.new(@directory, @opts[:watch]) do |file_path|
-        puts "[autoreload-web-server] File changed: #{file_path}"
-        puts '[autoreload-web-server] Setting reload flag for HTML file'
+        puts "[autoreload-server] File changed: #{file_path}"
+        puts '[autoreload-server] Setting reload flag for HTML file'
         @app&.set :pending_reload, true
       end
 
       @watcher.start
-      puts "[autoreload-web-server] File watcher started with pattern: #{@opts[:watch]}"
+      puts "[autoreload-server] File watcher started with pattern: #{@opts[:watch]}"
     end
 
     def client_script
       <<~SCRIPT
         <script type="text/javascript">
           (function() {
-            console.log('[autoreload-web-server] Initializing Server-Sent Events client...');
+            console.log('[autoreload-server] Initializing Server-Sent Events client...');
 
             if (!window.EventSource) {
-              console.error('[autoreload-web-server] EventSource not supported in this browser');
+              console.error('[autoreload-server] EventSource not supported in this browser');
               return;
             }
 
             const eventSource = new EventSource('/autoreload-events');
 
             eventSource.onopen = function(event) {
-              console.log('[autoreload-web-server] Connected to event stream');
+              console.log('[autoreload-server] Connected to event stream');
             };
 
             eventSource.onmessage = function(event) {
               try {
                 const data = JSON.parse(event.data);
-                console.log('[autoreload-web-server] Received event:', data);
+                console.log('[autoreload-server] Received event:', data);
 
                 if (data.type === 'update' && data.reload) {
-                  console.log('[autoreload-web-server] Reloading page...');
+                  console.log('[autoreload-server] Reloading page...');
                   eventSource.close();
                   window.location.reload(true);
                 } else if (data.type === 'connected') {
-                  console.log('[autoreload-web-server] Connection established');
+                  console.log('[autoreload-server] Connection established');
                 } else if (data.type === 'heartbeat') {
                   // Keep-alive message, no action needed
                 }
               } catch (error) {
-                console.error('[autoreload-web-server] Error parsing event data:', error);
+                console.error('[autoreload-server] Error parsing event data:', error);
               }
             };
 
             eventSource.onerror = function(event) {
-              console.error('[autoreload-web-server] EventSource error:', event);
+              console.error('[autoreload-server] EventSource error:', event);
               if (eventSource.readyState === EventSource.CLOSED) {
-                console.log('[autoreload-web-server] Connection closed');
+                console.log('[autoreload-server] Connection closed');
               }
             };
 

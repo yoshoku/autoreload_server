@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'autoreload_web_server'
+require 'autoreload_server'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

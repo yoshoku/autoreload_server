@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require 'autoreload_web_server/watcher'
+require 'autoreload_server/watcher'
 require 'pathname'
 require 'tmpdir'
 
-RSpec.describe AutoreloadWebServer::Watcher do
+RSpec.describe AutoreloadServer::Watcher do
   subject(:watcher) { described_class.new(test_directory, watch_pattern) { |file| callback.call(file) } }
 
   let(:test_directory) { '/tmp/test_watch_dir' }

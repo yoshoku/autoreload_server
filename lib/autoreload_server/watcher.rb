@@ -2,7 +2,7 @@
 
 require 'listen'
 
-module AutoreloadWebServer
+module AutoreloadServer
   class Watcher
     def initialize(directory, watch_pattern, &callback)
       @directory = directory

@@ -5,7 +5,7 @@ require 'tempfile'
 require 'tmpdir'
 require 'rack/test'
 
-RSpec.describe AutoreloadWebServer::Server do
+RSpec.describe AutoreloadServer::Server do
   include Rack::Test::Methods
 
   let(:temp_dir) { Dir.mktmpdir }
@@ -85,7 +85,7 @@ RSpec.describe AutoreloadWebServer::Server do
 
         expect(last_response).to be_ok
         expect(last_response.body).to include('<script type="text/javascript">')
-        expect(last_response.body).to include('autoreload-web-server')
+        expect(last_response.body).to include('autoreload-server')
         expect(last_response.body).to include('EventSource')
       end
 
@@ -154,7 +154,7 @@ RSpec.describe AutoreloadWebServer::Server do
         result = server.inject_client_script(html)
 
         expect(result).to include('<script type="text/javascript">')
-        expect(result).to include('autoreload-web-server')
+        expect(result).to include('autoreload-server')
         expect(result).to include('EventSource')
         expect(result).to include('</head>')
       end
@@ -176,7 +176,7 @@ RSpec.describe AutoreloadWebServer::Server do
 
         expect(result).to include('<head>')
         expect(result).to include('<script type="text/javascript">')
-        expect(result).to include('autoreload-web-server')
+        expect(result).to include('autoreload-server')
         expect(result).to include('</head>')
       end
     end
@@ -188,7 +188,7 @@ RSpec.describe AutoreloadWebServer::Server do
         result = server.inject_client_script(html)
 
         expect(result).to include('<script type="text/javascript">')
-        expect(result).to include('autoreload-web-server')
+        expect(result).to include('autoreload-server')
       end
     end
 
