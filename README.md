@@ -1,6 +1,6 @@
 # autoreload_web_server
 
-autoreload_web_server is a simple auto-reloading web server in Ruby.
+A simple web server for local development that provides an auto-reloading feature. It automatically refreshes the browser when a file is changed.
 
 ## Installation
 
