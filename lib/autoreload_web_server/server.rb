@@ -37,7 +37,7 @@ module AutoreloadWebServer
       directory = @directory
       server = self
 
-      app = Sinatra.new do
+      app = Sinatra.new do # rubocop:disable Metrics/BlockLength
         set :server, :webrick
         set :bind, opts[:host]
         set :port, opts[:port]
@@ -83,12 +83,12 @@ module AutoreloadWebServer
     end
 
     def inject_client_script(html)
-      doc = Nokogiri::HTML::DocumentFragment.parse(html)
+      doc = Nokogiri::HTML::Document.parse(html)
 
-      if (body = doc.at('body'))
-        body.add_child(client_script)
+      if (head = doc.at('head'))
+        head.add_child(client_script)
       else
-        doc.add_child(client_script)
+        doc.at('html').add_child("<head>#{client_script}</head>")
       end
 
       doc.to_html
@@ -107,7 +107,7 @@ module AutoreloadWebServer
 
     def client_script
       <<~SCRIPT
-        <script>
+        <script type="text/javascript">
           (function() {
             console.log('[autoreload-web-server] Initializing polling client script...');
 
