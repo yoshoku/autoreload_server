@@ -32,7 +32,7 @@ module AutoreloadWebServer
       )
     end
 
-    def create_sinatra_app # rubocop:disable Metrics/AbcSize
+    def create_sinatra_app # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       opts = @opts
       directory = @directory
       server = self
@@ -44,18 +44,44 @@ module AutoreloadWebServer
         set :static, false
         set :logging, false
         set :pending_reload, false
+        set :connections, []
 
         get '/autoreload-events' do
-          content_type :json
+          content_type 'text/event-stream'
           headers['Cache-Control'] = 'no-cache'
           headers['Access-Control-Allow-Origin'] = '*'
+          headers['Connection'] = 'keep-alive'
 
-          if settings.pending_reload
-            puts '[autoreload-web-server] Sending reload response to client'
-            settings.pending_reload = false
-            { type: 'update', reload: true }.to_json
-          else
-            { type: 'ping' }.to_json
+          # Create a new EventSource connection
+          stream do |out|
+            # Send initial connection message
+            out << "data: #{JSON.generate({ type: 'connected' })}\n\n"
+
+            # Keep connection alive with periodic heartbeat
+            heartbeat_thread = Thread.new do
+              loop do
+                sleep 30
+                begin
+                  out << "data: #{JSON.generate({ type: 'heartbeat' })}\n\n"
+                rescue StandardError
+                  # Connection closed
+                  break
+                end
+              end
+            end
+
+            # Monitor for reload events
+            loop do
+              if settings.pending_reload
+                puts '[autoreload-web-server] Sending reload event to client'
+                settings.pending_reload = false
+                out << "data: #{JSON.generate({ type: 'update', reload: true })}\n\n"
+                break
+              end
+              sleep 1
+            end
+
+            heartbeat_thread.kill if heartbeat_thread&.alive?
           end
         end
 
@@ -109,38 +135,47 @@ module AutoreloadWebServer
       <<~SCRIPT
         <script type="text/javascript">
           (function() {
-            console.log('[autoreload-web-server] Initializing polling client script...');
+            console.log('[autoreload-web-server] Initializing Server-Sent Events client...');
 
-            const checkForUpdates = async () => {
+            if (!window.EventSource) {
+              console.error('[autoreload-web-server] EventSource not supported in this browser');
+              return;
+            }
+
+            const eventSource = new EventSource('/autoreload-events');
+
+            eventSource.onopen = function(event) {
+              console.log('[autoreload-web-server] Connected to event stream');
+            };
+
+            eventSource.onmessage = function(event) {
               try {
-                const response = await fetch('/autoreload-events', {
-                  cache: 'no-cache',
-                  headers: {
-                    'Cache-Control': 'no-cache'
-                  }
-                });
-                const data = await response.json();
+                const data = JSON.parse(event.data);
+                console.log('[autoreload-web-server] Received event:', data);
+
                 if (data.type === 'update' && data.reload) {
                   console.log('[autoreload-web-server] Reloading page...');
+                  eventSource.close();
                   window.location.reload(true);
+                } else if (data.type === 'connected') {
+                  console.log('[autoreload-web-server] Connection established');
+                } else if (data.type === 'heartbeat') {
+                  // Keep-alive message, no action needed
                 }
               } catch (error) {
-                console.error('[autoreload-web-server] Polling error:', error);
-                console.log('[autoreload-web-server] Stopping polling due to error');
-                clearInterval(pollInterval);
+                console.error('[autoreload-web-server] Error parsing event data:', error);
               }
             };
 
-            // Poll every second
-            console.log('[autoreload-web-server] Starting polling every 1000ms');
-            const pollInterval = setInterval(checkForUpdates, 1000);
+            eventSource.onerror = function(event) {
+              console.error('[autoreload-web-server] EventSource error:', event);
+              if (eventSource.readyState === EventSource.CLOSED) {
+                console.log('[autoreload-web-server] Connection closed');
+              }
+            };
 
-            // Also check immediately
-            checkForUpdates();
-
-            // Clean up on page unload
             window.addEventListener('beforeunload', () => {
-              clearInterval(pollInterval);
+              eventSource.close();
             });
           })();
         </script>
