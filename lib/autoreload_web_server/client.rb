@@ -62,15 +62,11 @@ module AutoreloadWebServer
     end
 
     def validate_options
-      unless Dir.exist?(@opts[:directory])
-        warn "Directory '#{@opts[:directory]}' does not exist"
-        exit 1
-      end
+      abort "[autoreload-web-server] Error: '#{@opts[:directory]}' does not exist" unless Dir.exist?(@opts[:directory])
 
       return if @opts[:port].between?(1, 65_535)
 
-      warn 'Port must be between 1 and 65535'
-      exit 1
+      abort '[autoreload-web-server] Error: port number must be between 1 and 65535'
     end
 
     def start_server
