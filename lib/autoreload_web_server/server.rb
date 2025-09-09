@@ -41,8 +41,7 @@ module AutoreloadWebServer
         set :server, :webrick
         set :bind, opts[:host]
         set :port, opts[:port]
-        set :public_folder, directory
-        set :static, true
+        set :static, false
         set :logging, false
         set :pending_reload, false
 
@@ -61,7 +60,9 @@ module AutoreloadWebServer
         end
 
         get '/*' do
-          file_path = File.join(directory, params['splat'].first || 'index.html')
+          requested_path = params['splat'].first || ''
+          requested_path = 'index.html' if requested_path.empty?
+          file_path = File.join(directory, requested_path)
 
           if File.directory?(file_path)
             index_file = File.join(file_path, 'index.html')
@@ -96,11 +97,8 @@ module AutoreloadWebServer
     def start_file_watcher
       @watcher = Watcher.new(@directory, @opts[:watch]) do |file_path|
         puts "[autoreload-web-server] File changed: #{file_path}"
-
-        if file_path.end_with?('.html', '.htm')
-          puts '[autoreload-web-server] Setting reload flag for HTML file'
-          @app&.set :pending_reload, true
-        end
+        puts '[autoreload-web-server] Setting reload flag for HTML file'
+        @app&.set :pending_reload, true
       end
 
       @watcher.start
